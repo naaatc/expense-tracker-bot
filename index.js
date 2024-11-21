@@ -20,8 +20,14 @@ bot.onText(/\/start/, (msg) => {
 
 bot.onText(/\/add/, (msg) => {
   const chatId = msg.chat.id;
-  userStates[chatId] = { state: 'WAITING_DATE' };
-  bot.sendMessage(chatId, 'Please enter the date (YYYY-MM-DD):');
+  userStates[chatId] = {
+    state: 'WAITING_AMOUNT',
+    data: {
+      transaction_date: new Date().toISOString().split('T')[0],
+      transaction_mth: new Date().getMonth() + 1
+    }
+  };
+  bot.sendMessage(chatId, 'Enter the amount (e.g., 12.50):');
 });
 
 bot.on('message', async (msg) => {
